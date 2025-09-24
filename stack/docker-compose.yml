@@ -1,0 +1,42 @@
+﻿name: bijli-stack
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: \
+      POSTGRES_PASSWORD: \
+      POSTGRES_DB: \
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \ -d \"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  auth:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./auth:/app
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://\:\@db:5432/\
+      JWT_SECRET: \
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-c", "node server.js"]
+    ports:
+      - "\:3000"
+
+  ai:
+    image: python:3.11-slim
+    working_dir: /app
+    volumes:
+      - ./ai:/app
+    environment:
+      OPENAI_API_KEY: \
+    command: ["sh", "-c", "pip install -r requirements.txt && uvicorn app:app --host 0.0.0.0 --port 8000"]
+    ports:
+      - "\:8000"

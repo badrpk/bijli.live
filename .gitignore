@@ -1,0 +1,10 @@
+﻿# node / electron
+app/node_modules/
+app/package-lock.json
+electron/
+# python
+local/ai/.venv/
+__pycache__/
+# caches
+*.log
+*.zip

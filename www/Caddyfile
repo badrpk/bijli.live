@@ -1,0 +1,9 @@
+www.bijli.live {
+	root * "D:\bijli.live\www"
+	file_server
+	@health path /health
+	handle @health {
+		header Content-Type "application/json"
+		respond 200 {"status":"OK","scheme":"https","host":"{host}"}
+	}
+}

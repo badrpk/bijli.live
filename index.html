@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bijli.live - Web App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #667eea;
+        }
+
+        .module-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-features {
+            list-style: none;
+            text-align: left;
+        }
+
+        .module-features li {
+            padding: 0.5rem 0;
+            color: #555;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .module-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .status-bar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            text-align: center;
+            color: white;
+            margin-top: 2rem;
+            border-radius: 10px;
+        }
+
+        .status-item {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .database-status {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .module-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚡ Bijli.live</h1>
+        <p>Your Complete Digital Ecosystem - Now in Browser!</p>
+    </div>
+
+    <div class="main-container">
+        <div class="modules-grid">
+            <!-- Camera Module -->
+            <div class="module-card" onclick="openModule('camera')">
+                <span class="module-icon">📷</span>
+                <h2 class="module-title">Camera</h2>
+                <p class="module-description">Advanced camera features with AI-powered scanning and QR code detection.</p>
+                <ul class="module-features">
+                    <li>QR Code Scanner</li>
+                    <li>Document Scanner</li>
+                    <li>Photo Editor</li>
+                    <li>AI Object Detection</li>
+                </ul>
+            </div>
+
+            <!-- Search Module -->
+            <div class="module-card" onclick="openModule('search')">
+                <span class="module-icon">🔍</span>
+                <h2 class="module-title">Search</h2>
+                <p class="module-description">Intelligent search across all services with voice and image search capabilities.</p>
+                <ul class="module-features">
+                    <li>Voice Search</li>
+                    <li>Image Search</li>
+                    <li>Local Business Search</li>
+                    <li>Real-time Results</li>
+                </ul>
+            </div>
+
+            <!-- Plus Module -->
+            <div class="module-card" onclick="openModule('plus')">
+                <span class="module-icon">➕</span>
+                <h2 class="module-title">Plus</h2>
+                <p class="module-description">Premium features and enhanced functionality for power users.</p>
+                <ul class="module-features">
+                    <li>Premium Services</li>
+                    <li>Advanced Analytics</li>
+                    <li>Priority Support</li>
+                    <li>Exclusive Features</li>
+                </ul>
+            </div>
+
+            <!-- Chats Module -->
+            <div class="module-card" onclick="openModule('chats')">
+                <span class="module-icon">💬</span>
+                <h2 class="module-title">Chats</h2>
+                <p class="module-description">Secure messaging with end-to-end encryption and multimedia support.</p>
+                <ul class="module-features">
+                    <li>Secure Messaging</li>
+                    <li>Group Chats</li>
+                    <li>Voice Messages</li>
+                    <li>File Sharing</li>
+                </ul>
+            </div>
+
+            <!-- Discover Module -->
+            <div class="module-card" onclick="openModule('discover')">
+                <span class="module-icon">🌟</span>
+                <h2 class="module-title">Discover</h2>
+                <p class="module-description">Explore trending content, local events, and personalized recommendations.</p>
+                <ul class="module-features">
+                    <li>Trending Content</li>
+                    <li>Local Events</li>
+                    <li>Personalized Feed</li>
+                    <li>Social Features</li>
+                </ul>
+            </div>
+
+            <!-- Services Module -->
+            <div class="module-card" onclick="openModule('services')">
+                <span class="module-icon">🛠️</span>
+                <h2 class="module-title">Services</h2>
+                <p class="module-description">Comprehensive service marketplace including ride-hailing, food delivery, and more.</p>
+                <ul class="module-features">
+                    <li>Ride Hailing</li>
+                    <li>Food Delivery</li>
+                    <li>Home Services</li>
+                    <li>Real Estate</li>
+                </ul>
+            </div>
+
+            <!-- Me Module -->
+            <div class="module-card" onclick="openModule('me')">
+                <span class="module-icon">👤</span>
+                <h2 class="module-title">Me</h2>
+                <p class="module-description">Personal profile, settings, and account management with comprehensive analytics.</p>
+                <ul class="module-features">
+                    <li>Profile Management</li>
+                    <li>Settings & Preferences</li>
+                    <li>Usage Analytics</li>
+                    <li>Account Security</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="database-status">●</span> Database Connected
+            </div>
+            <div class="status-item">
+                <span class="database-status">●</span> PostgreSQL Active
+            </div>
+            <div class="status-item">
+                <span class="database-status">●</span> Password: Karachi5846$
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 Bijli.live - Your Complete Digital Ecosystem | Database: PostgreSQL | Password: Karachi5846$</p>
+    </div>
+
+    <script>
+        function openModule(moduleName) {
+            alert(`Opening ${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} module...\n\nThis is the web version of your bijli.live app!\n\nModule: ${moduleName}\nDatabase: PostgreSQL\nPassword: Karachi5846$\n\nAll 7 modules are ready for development!`);
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.module-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Simulate database connection status
+            setTimeout(() => {
+                const statusItems = document.querySelectorAll('.status-item');
+                statusItems.forEach(item => {
+                    item.style.animation = 'pulse 2s infinite';
+                });
+            }, 1000);
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.7; }
+                100% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

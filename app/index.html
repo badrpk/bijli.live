@@ -1,0 +1,81 @@
+﻿<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>⚡ Bijli Vibe Coder — Local Only</title>
+<meta name='viewport' content='width=device-width, initial-scale=1' />
+<style>
+body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#0b1220;color:#e2e8f0}
+header{padding:16px 20px;background:#0f172a;font-weight:700}
+main{padding:20px;display:grid;gap:12px;max-width:900px;margin:0 auto}
+.card{background:#0f172a;border-radius:16px;padding:16px;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+input,button{font:16px system-ui}
+input{width:100%;border-radius:10px;border:1px solid #334155;background:#0b1220;color:#e2e8f0;padding:10px}
+button{border:0;padding:10px 16px;border-radius:10px;background:#22d3ee;color:#0b1220;font-weight:700;cursor:pointer}
+pre{white-space:pre-wrap;background:#0b1220;padding:12px;border-radius:10px;border:1px solid #334155}
+.row{display:flex;gap:10px;align-items:center}
+.grow{flex:1}
+.mono{font-family:ui-monospace,Consolas,Menlo,monospace}
+.bad{color:#fca5a5}
+</style>
+</head>
+<body>
+<header>⚡ Bijli Vibe Coder — Local Only</header>
+<main>
+  <div class="card">
+    <label for="prompt">Describe what you want (English/Urdu):</label>
+    <div class="row">
+      <input id="prompt" placeholder="Show running services sorted by memory usage" class="grow" />
+      <button id="translateBtn">Translate</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div>Generated PowerShell:</div>
+    <pre id="cmd" class="mono"></pre>
+    <div id="blocked" class="bad"></div>
+    <div class="row">
+      <button id="runBtn" disabled>Run this command</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div>Output:</div>
+    <pre id="out" class="mono"></pre>
+    <div>Error:</div>
+    <pre id="err" class="mono"></pre>
+  </div>
+</main>
+<script>
+const $ = (s)=>document.querySelector(s);
+const promptEl=$('#prompt'), cmdEl=$('#cmd'), outEl=$('#out'), errEl=$('#err'), blockedEl=$('#blocked');
+const tBtn=$('#translateBtn'), rBtn=$('#runBtn');
+
+tBtn.onclick = async () => {
+  outEl.textContent = ""; errEl.textContent = ""; blockedEl.textContent=""; rBtn.disabled = true; cmdEl.textContent = "Translating…";
+  try {
+    const res = await window.bijli.translate(promptEl.value.trim());
+    if (res.blocked) {
+      cmdEl.textContent = "";
+      blockedEl.textContent = "BLOCKED: " + (res.reason || "Potentially unsafe");
+      return;
+    }
+    cmdEl.textContent = res.command || "";
+    rBtn.disabled = !res.command;
+  } catch (e) {
+    cmdEl.textContent = "Error: " + (e?.message || e);
+  }
+};
+
+rBtn.onclick = async () => {
+  const cmd = cmdEl.textContent.trim();
+  if (!cmd) return;
+  if (!confirm("Run this PowerShell command?\\n\\n" + cmd)) return;
+  outEl.textContent = "Running…"; errEl.textContent = "";
+  const res = await window.bijli.runPS(cmd);
+  outEl.textContent = res.out || "";
+  errEl.textContent = res.err || (res.code !== 0 ? ("Exited with code " + res.code) : "");
+};
+</script>
+</body>
+</html>
