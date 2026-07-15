@@ -1,7 +1,5 @@
-# Moved → [bijli-live](https://github.com/badrpk/bijli-live)
+# Moved → [bijli](https://github.com/badrpk/bijli)
 
-This Android app now lives in the **Bijli Live monorepo**:
+**https://github.com/badrpk/bijli**
 
-**https://github.com/badrpk/bijli-live** → `apps/android`
-
-Please clone and contribute there. This repository is kept as a pointer for old links.
+Old name `bijli.live` redirects to the short name. Clone and contribute there.
